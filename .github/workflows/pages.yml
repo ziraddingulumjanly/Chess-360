@@ -1,0 +1,62 @@
+name: Deploy Chess 360 to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify chess tests
+        run: npm test
+      - name: Cache generated rated puzzles
+        id: puzzles-cache
+        uses: actions/cache@v4
+        with:
+          path: assets/puzzles/catalog.json
+          key: lichess-rated-puzzles-v1-4000-${{ hashFiles('scripts/build-puzzles.mjs') }}
+      - name: Build 4,000 balanced and verified Lichess puzzles
+        if: steps.puzzles-cache.outputs.cache-hit != 'true'
+        run: node scripts/build-puzzles.mjs
+      - name: Download official full single-thread Stockfish 19 for GitHub Pages
+        run: |
+          npm install --no-save --ignore-scripts stockfish@19.0.1
+          cp node_modules/stockfish/bin/stockfish-19-single.js engine/
+          cp node_modules/stockfish/bin/stockfish-19-single.wasm engine/
+          test -s engine/stockfish-19-single.js
+          test -s engine/stockfish-19-single.wasm
+      - name: Prepare static deployment
+        run: |
+          mkdir -p _site
+          cp -a ./*.html ./*.css _site/
+          cp -a assets src engine vendor licenses _site/
+          touch _site/.nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

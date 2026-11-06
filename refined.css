@@ -1,0 +1,292 @@
+/* Chess 360 · chess-first refinement. The board carries the visual weight;
+   page chrome stays quiet. Inspired by the unslop audit and OpenDesigner tokens. */
+:root {
+  --text: #20252b;
+  --muted: #68727d;
+  --line: rgba(37, 47, 60, .13);
+  --panel: #ffffff;
+  --surface: #f8f9fb;
+  --background: #f3f4f6;
+  --blue: #2f61d5;
+  --blue-dark: #2754bf;
+  --shadow: 0 2px 12px rgba(20, 27, 40, .035);
+  --active-square: rgba(245, 215, 105, .46);
+}
+body[data-theme="dark"] {
+  --text: #edf1f5;
+  --muted: #a1a9b2;
+  --line: rgba(216, 227, 238, .13);
+  --panel: #20262e;
+  --surface: #292f38;
+  --background: #171b20;
+  --blue: #89a9ff;
+  --blue-dark: #678bec;
+  --shadow: 0 2px 12px rgba(0, 0, 0, .15);
+}
+body[data-board-theme="slate"] { --light-square:#dadde0; --dark-square:#626a71; }
+body {background:var(--background);color:var(--text);}
+.glass {background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:none;}
+button,select {font:inherit;}
+button:focus-visible, select:focus-visible, a:focus-visible, summary:focus-visible, .square:focus-visible {
+  outline:3px solid var(--blue);outline-offset:2px;
+}
+button:disabled {cursor:not-allowed;opacity:.42;}
+[hidden] {display:none!important;}
+/* Navigation: a compact application bar, not a marketing landing page. */
+.header {height:60px;max-width:1400px;margin:8px auto 0;width:calc(100% - 36px);padding:0 4px;border-radius:0;gap:16px;}
+.header.glass {background:transparent;border:0;border-bottom:1px solid var(--line);box-shadow:none;}
+.brand {font-size:20px;letter-spacing:-.7px;gap:9px;font-weight:750;}
+.brand-mark {width:33px;height:33px;border-radius:9px;background:#2f61d5;box-shadow:none;}
+.brand-mark .icon {width:21px;height:21px;stroke-width:1.8;}
+.header-nav {gap:18px;font-size:13px;font-weight:600;margin-right:auto;margin-left:32px;}
+.header-nav .active {color:var(--text);border-bottom:2px solid var(--blue);}
+.header-nav a,.nav-button {padding:20px 0 17px;}
+.header-nav .icon {width:15px;height:15px;}
+.header-actions {gap:7px;min-width:0;}
+.icon-btn {border-radius:9px;width:35px;height:35px;box-shadow:none;transition:background .15s;}
+.icon-btn:hover,.action-tile:hover {transform:none;background:var(--surface);}
+.engine-chip {max-width:225px;min-width:0;border:0;background:transparent;border-radius:5px;padding:5px 8px;font-size:11px;font-weight:550;color:var(--muted);gap:8px;}
+.engine-chip .pulse {width:7px;height:7px;box-shadow:none;}
+/* Tight viewport rhythm and one wide board + one narrow rail. */
+.main {max-width:1400px;padding:14px 18px 18px;margin:0 auto;}
+.game-layout {display:grid;grid-template-columns:minmax(0, 1fr) 310px;max-width:1250px;gap:18px;align-items:start;margin:0 auto;justify-content:center;}
+.board-column {width:100%;min-width:0;}
+.side-rail {display:flex;flex-direction:column;gap:12px;min-width:0;}
+.sidebar {display:flex;flex-direction:column;gap:0;min-width:0;}
+.panel {border-radius:12px;padding:17px 17px;}
+.panel-heading {margin:0 0 16px;display:flex;align-items:baseline;gap:10px;justify-content:space-between;}
+.panel-heading h2,.stat-head h2 {font-size:16px;letter-spacing:-.35px;margin:0;font-weight:710;}
+.panel-heading.compact {margin-bottom:12px;}
+.setup-subtitle {font-size:11px;color:var(--muted);white-space:nowrap;}
+.field-label,.small-panel-title {font-size:11px;font-weight:650;letter-spacing:0;color:var(--muted);margin-bottom:6px;}
+.form-section {margin-bottom:12px;}
+.mode-picker {background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:3px;}
+.mode-option {min-height:35px;border-radius:6px;font-size:12px;font-weight:630;padding:6px;}
+.mode-option.active {color:var(--text);background:var(--panel);border-color:var(--line);box-shadow:0 1px 2px #0001;}
+.mode-option .icon {width:16px;height:16px;}
+.select-wrap select {border-radius:8px;min-height:39px;padding:10px 30px 10px 10px;font-size:12px;font-weight:600;background:var(--panel);}
+.setting-hint,.sidebar-footnote {display:none;}
+.advanced-game-options {border-top:1px solid var(--line);margin:2px 0 12px;padding-top:11px;}
+.advanced-game-options>summary {display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:12px;font-weight:600;list-style:none;cursor:pointer;}
+.advanced-game-options>summary::-webkit-details-marker {display:none;}
+.advanced-game-options>summary .icon {width:15px;height:15px;transition:transform .2s;}
+.advanced-game-options[open]>summary .icon {transform:rotate(180deg);}
+.advanced-contents {padding-top:15px;}
+.advanced-contents .form-section:last-child {margin-bottom:0;}
+.color-option {min-height:37px;font-size:11px;border-radius:7px;}
+.btn {border-radius:8px;min-height:41px;font-size:12px;box-shadow:none;}
+.btn:hover:not(:disabled) {transform:none;filter:brightness(1.07);}
+.btn-primary {background:#2f61d5;color:#fff;box-shadow:none;}
+.btn-primary .small:last-child {display:none;}
+.quick-actions {margin-top:10px;padding:7px 0 0;border:0;background:transparent;box-shadow:none;}
+.quick-grid {grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;}
+.action-tile {padding:10px 3px;min-height:52px;border-radius:8px;font-size:10px;font-weight:570;background:var(--panel);gap:5px;}
+.action-tile .icon {width:16px;height:16px;color:var(--muted);}
+/* Board: nearly edge to edge; no thick cards or gradients fighting the game. */
+.player-strip {min-height:44px;padding:4px 1px;margin:0 0 5px;border-radius:0;gap:9px;}
+.player-strip.glass {background:transparent;border:0;box-shadow:none;}
+.player-strip:not(.opponent) {margin:5px 0 0;}
+.avatar {width:31px;height:31px;border-radius:8px;background:var(--surface);color:var(--text);border:1px solid var(--line);}
+.avatar .icon {width:17px;height:17px;}
+.player-copy {gap:2px;}
+.player-copy strong {font-size:12px;font-weight:700;}
+.player-copy span {font-size:11px;}
+.clock {font-size:14px;min-width:62px;padding:5px 9px;border-radius:7px;}
+.turn-indicator,.thinking {font-size:11px;font-weight:620;}
+.board-shell {border-radius:5px;overflow:hidden;position:relative;padding:0;}
+.board-shell.glass {background:transparent;border:1px solid var(--line);box-shadow:0 3px 16px #0000000c;}
+.board {border-radius:0;box-shadow:none;}
+.square .piece-img {width:91%;height:91%;filter:none;transition:transform .12s ease;}
+.square:hover .piece-img {transform:scale(1.025);}
+.square.last:before {background:rgba(246,216,92,.32);}
+.square.selected:before {background:rgba(246,216,92,.5);}
+.square .dot {width:24%;height:24%;background:rgba(23,75,51,.38);}
+.square .ring {inset:4px;border:4px solid rgba(21,86,54,.45);}
+.coord {font-weight:650;}
+.arrow-layer {position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:5;}
+.board-overlay {z-index:6;}
+.board-toolbar {display:flex;align-items:center;gap:10px;padding:5px 2px 0;font-size:11px;min-height:33px;}
+.game-status {font-weight:630;}
+.status-dot {width:6px;height:6px;box-shadow:none;}
+.toolbar-separator {display:none;}
+.turn-help {margin-left:6px;}
+.board-tools {display:flex;align-items:center;margin-left:auto;gap:5px;}
+.toolbar-icon {display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:6px 9px;color:var(--muted);background:transparent;border:1px solid transparent;border-radius:7px;font-size:11px;font-weight:620;min-height:29px;}
+.toolbar-icon:hover,.toolbar-icon.active {color:var(--blue);background:var(--surface);border-color:var(--line);}
+.toolbar-icon .icon {height:14px;width:14px;}
+.toolbar-icon .diagonal-arrow {transform:rotate(-45deg);}
+/* Move list has enough space for real moves, not an empty dashboard tile. */
+.moves-panel {min-height:155px;}
+.move-history {min-height:94px;max-height:250px;padding:0 0 8px;}
+.empty-state {min-height:94px;border:0;background:var(--surface);border-radius:7px;font-size:12px;color:var(--muted);}
+.empty-state span {font-size:12px;}
+.history-row {margin-bottom:1px;padding:1px;border-radius:6px;}
+.history-row:nth-child(odd) {background:transparent;}
+.history-move {font-size:12px;font-weight:550;padding:6px;}
+.history-move:hover,.history-move.active {background:rgba(48,98,210,.10);}
+.history-nav {padding-top:8px;}
+.history-nav button {height:27px;width:27px;}
+.history-nav span {font-size:10px;font-weight:550;}
+.stats-panel,.mini-tip {display:none;}
+.footer {border-top:0;margin:12px auto 0;max-width:1250px;padding:0 18px 20px;font-size:10px;}
+.footer>* {margin-top:0;}
+/* Dialogs stay fully functional but use the same understated system. */
+.modal-backdrop {background:rgba(9,16,28,.56);backdrop-filter:blur(4px);}
+.modal-card {border-radius:13px;}
+.modal-card h2 {font-size:26px;letter-spacing:-.6px;}
+.eyebrow,.overline {letter-spacing:0;color:var(--muted);font-weight:630;}
+.theme-choices {grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;}
+.board-choice {border-radius:9px;padding:9px 2px;}
+.board-choice.active {color:var(--text);border-color:var(--blue);box-shadow:inset 0 0 0 1px var(--blue);}
+.swatches.slate i {background:#dadde0;}
+.swatches.slate i+i {background:#626a71;}
+.result-emblem {background:var(--blue);box-shadow:none;border-radius:13px;}
+.toast {background:var(--text);color:var(--panel);border-radius:8px;box-shadow:0 4px 18px #0002;}
+/* 2-column until a board at least 620px wide is no longer possible. */
+@media (max-width:1100px) {
+  .game-layout {grid-template-columns:minmax(0,1fr) 285px;gap:12px;}
+  .header {width:calc(100% - 24px);}
+  .main {padding:12px 12px 20px;}
+  .panel {padding:13px;}
+  .quick-grid {gap:3px;}
+}
+@media (max-width:980px) and (min-width:791px) {
+  .game-layout {display:flex;flex-direction:column;max-width:850px;}
+  .board-column {width:100%;}
+  .side-rail {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);width:100%;gap:12px;align-items:start;}
+}
+@media (max-width:790px) {
+  .header {height:54px;margin:0 auto;padding:0 3px;width:calc(100% - 22px);}
+  .brand {font-size:17px;}
+  .brand-mark {width:31px;height:31px;}
+  .header-nav {display:none;}
+  .engine-chip {max-width:115px;font-size:10px;}
+  .engine-chip>span:last-child {white-space:nowrap;}
+  .main {padding:8px 7px 15px;}
+  .game-layout {display:flex;flex-direction:column;gap:10px;width:100%;}
+  .board-column {width:100%;order:0;}
+  .side-rail {width:100%;order:1;gap:10px;}
+  .controls-panel>.panel:first-child {display:block;}
+  .panel {padding:15px;}
+  .controls-panel>.panel:first-child .form-section {margin-bottom:12px;}
+  .board-shell {border-radius:3px;}
+  .player-strip {min-height:41px;margin-bottom:3px;}
+  .player-strip:not(.opponent) {margin:3px 0 0;}
+  .board-toolbar {min-height:38px;}
+  .turn-help {display:none;}
+  .footer {padding:10px 8px 20px;flex-direction:column;gap:5px;align-items:flex-start;}
+}
+@media (max-width:410px) {
+  .engine-chip {display:none;}
+  .theme-choices {grid-template-columns:repeat(2,1fr);}
+  .clock {font-size:13px;min-width:50px;padding:5px 5px;}
+  .board-toolbar {font-size:10px;}
+  .setup-subtitle {font-size:10px;}
+}
+@media (prefers-reduced-motion:reduce) {
+  *,*:before,*:after {animation-duration:.01ms!important;transition-duration:.01ms!important;}
+}
+
+/* Computer-only, board-first refinement: no empty player headers or infinity clocks. */
+.header { height:48px; margin:0 auto; }
+.header-nav a,.nav-button { padding:14px 0 12px; }
+.main { padding-top:5px; }
+.engine-chip { max-width:105px; }
+.board-column > .board-shell { margin-top:0; }
+.clock-group { display:flex; align-items:center; gap:11px; flex-wrap:wrap; margin-left:10px; }
+.clock-group[hidden] { display:none !important; }
+.clock-pair { display:flex; align-items:center; gap:5px; white-space:nowrap; font-size:11px; color:var(--muted); }
+.clock-pair .clock { font-size:12px; min-width:55px; padding:4px 5px; border-radius:6px; }
+.board-toolbar { flex-wrap:wrap; }
+@media (max-width:790px) {
+  .header { height:46px; margin:0 auto; }
+  .main { padding-top:3px; }
+  .board-toolbar { gap:5px; }
+  .clock-group { gap:7px; margin-left:3px; }
+  .clock-pair .clock { min-width:49px; }
+}
+
+/* Viewport-fit chess: size by height AND width, not width alone.
+   Footer is intentionally after the game viewport, not part of board sizing. */
+:root { --app-header-height: 48px; --board-toolbar-height: 39px; --board-vertical-reserve: 108px; }
+html { min-height:100%; }
+body { min-width: 280px; }
+.visually-hidden { position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important; }
+.header { max-width: 1450px; height:var(--app-header-height); gap:13px; }
+.header-nav { gap:17px; margin-left:20px; }
+.header-nav a, .header-nav .nav-button, .nav-resources summary { white-space:nowrap; }
+.header-nav .nav-button, .header-nav a { padding:13px 0; }
+.header .brand { flex-shrink:0; }
+.header-actions { margin-left:auto; }
+.nav-resources { position:relative; align-self:stretch; display:flex; align-items:center; z-index:20; }
+.nav-resources summary { display:flex; align-items:center; gap:4px; color:var(--muted); list-style:none; cursor:pointer; padding:12px 0; }
+.nav-resources summary::-webkit-details-marker { display:none; }
+.nav-resources summary .icon { width:12px;height:12px; }
+.nav-resources[open] summary { color:var(--text); }
+.nav-resources-menu { position:absolute; top:calc(100% - 1px); left:-14px; min-width:184px; padding:7px; background:var(--panel); border:1px solid var(--line); box-shadow:0 10px 30px #0002; border-radius:10px; display:grid; gap:1px; }
+.nav-resources-menu a { padding:10px 11px!important; border-radius:6px; font-size:12px; color:var(--text); }
+.nav-resources-menu a:hover { background:var(--surface); }
+.main { max-width:1500px; padding:4px 16px 10px; }
+.game-layout {
+  /* At 1366×768, for example, 768−108=660px. The whole board stays on screen. */
+  --board-fit:min(calc(100dvh - var(--board-vertical-reserve)), calc(100vw - 395px), 980px);
+  width:min(100%, calc(var(--board-fit) + 328px));
+  max-width:none; grid-template-columns:minmax(0, var(--board-fit)) 310px;
+  gap:18px; align-items:start; justify-content:center; margin:0 auto;
+}
+.board-column { width:100%; min-width:0; }
+.board-shell,.board { width:100%; }
+.board-shell { aspect-ratio:1; flex-shrink:0; }
+.board-toolbar { min-height:var(--board-toolbar-height); padding-top:3px; }
+.game-status { color:var(--muted); }
+.footer { max-width:1330px; padding:18px 16px 32px; margin:20px auto 0; border-top:1px solid var(--line); }
+.footer-inner { display:grid; grid-template-columns:minmax(210px,2fr) repeat(3,minmax(110px,1fr)) minmax(100px,.8fr); gap:24px; width:100%; }
+.footer-brand strong { color:var(--text); font-size:17px; letter-spacing:-.6px; }
+.footer-brand strong span { color:var(--blue); }
+.footer-brand p { font-size:11px; line-height:1.6; margin:8px 0 0; max-width:250px; }
+.footer-group { display:flex;flex-direction:column;align-items:flex-start;gap:9px; }
+.footer-group strong { color:var(--text);font-size:11px; }
+.footer .footer-group a { font-size:11px; text-decoration:none; color:var(--muted); }
+.footer .footer-group a:hover { color:var(--blue); text-decoration:underline; }
+.footer-version { display:flex; flex-direction:column; align-items:flex-end; gap:9px; font-size:10px; white-space:nowrap; }
+.footer-version span { opacity:.8; }
+@media (max-width:1100px) and (min-width:791px) {
+  .game-layout { --board-fit:min(calc(100dvh - var(--board-vertical-reserve)),calc(100vw - 340px)); width:min(100%,calc(var(--board-fit) + 297px)); grid-template-columns:minmax(0,var(--board-fit)) 285px;gap:12px; }
+  .header-nav { gap:13px; margin-left:8px; }
+}
+/* Use a stacked board when two columns would squeeze the actual play area. */
+@media (max-width:980px) and (min-width:791px) {
+  .game-layout { display:grid; --board-fit:min(calc(100dvh - var(--board-vertical-reserve)),calc(100vw - 330px)); width:min(100%,calc(var(--board-fit) + 297px)); grid-template-columns:minmax(0,var(--board-fit)) 285px; }
+  .side-rail { display:flex; width:100%; }
+}
+@media (max-width:790px) {
+  :root { --app-header-height:46px; --board-vertical-reserve:108px; }
+  .header-nav { display:none; }
+  .game-layout { display:flex; flex-direction:column; width:100%;max-width:none;gap:12px; }
+  .board-column {width:min(100%,calc(100dvh - var(--board-vertical-reserve)));margin:0 auto;}
+  .board-shell { aspect-ratio:1; }
+  .main { padding:3px 7px 14px; }
+  .footer { margin-top:12px; padding:18px 10px 28px; }
+  .footer-inner { grid-template-columns:repeat(2,minmax(0,1fr));gap:23px; }
+  .footer-brand { grid-column:1/-1; }
+  .footer-version { align-items:flex-start; }
+}
+@media (max-width:380px) { .footer-inner { gap:15px; } }
+@media (max-height:560px) and (min-width:791px) {
+  :root { --board-vertical-reserve:92px; }
+  .main { padding-top:2px; }
+  .board-toolbar { min-height:30px; padding-top:1px; }
+}
+
+/* Accessible theme contrast and compact mobile resource navigation. */
+.brand,.panel-heading h2,.stat-head h2 { color:var(--text); }
+.icon-btn { color:var(--text); background:transparent; }
+.action-tile { color:var(--text); }
+.mobile-resources { display:none; position:relative; z-index:25; }
+.mobile-resources summary { list-style:none; height:35px; width:35px; display:grid; place-items:center; border:1px solid var(--line); border-radius:9px; cursor:pointer; color:var(--text); background:var(--panel); }
+.mobile-resources summary::-webkit-details-marker { display:none; }
+.mobile-resources summary .icon { height:18px; width:18px; }
+.mobile-resources-menu { position:absolute; right:0; top:calc(100% + 5px); background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 28px #0003; width:195px;display:grid;padding:6px; }
+.mobile-resources-menu a,.mobile-resources-menu button { color:var(--text);padding:10px 9px;text-decoration:none;font:inherit;font-size:12px;border:0;background:transparent;text-align:left;border-radius:6px;display:flex;align-items:center;gap:8px;cursor:pointer; }
+.mobile-resources-menu a:hover,.mobile-resources-menu button:hover { background:var(--surface); }
+@media(max-width:790px){ .mobile-resources { display:block; } }

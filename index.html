@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#212121">
+  <meta name="description" content="Play chess against full Stockfish 19. No accounts or online multiplayer.">
+  <title>Chess 360 — Your move.</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="refined.css">
+  <link rel="stylesheet" href="igcse-theme.css">
+  <link rel="stylesheet" href="app-shell.css">
+  <link rel="stylesheet" href="piece-themes.css">
+  <link rel="stylesheet" href="training.css">
+</head>
+<body data-theme="dark" data-board-theme="walnut">
+  <header class="header glass">
+    <a class="brand" href="#play" aria-label="Chess 360 home">
+      <span class="brand-mark"><svg class="icon"><use href="assets/icons.svg#crown"></use></svg></span>
+      <span>Chess<span class="brand-accent">360</span></span>
+    </a>
+    <nav class="header-nav" aria-label="Main navigation">
+      <a href="#play" class="active" aria-current="page">Play</a>
+      <button class="nav-button" type="button" id="navStats"><svg class="icon"><use href="assets/icons.svg#chart-no-axes-column"></use></svg> Statistics</button>
+      <details class="nav-resources"><summary>Resources <svg class="icon"><use href="assets/icons.svg#chevron-down"></use></svg></summary>
+        <div class="nav-resources-menu">
+          <a href="docs.html">Documentation</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy Policy</a>
+          <a href="cookies.html">Cookie Policy</a><a href="terms.html">Terms</a>
+          <a href="licenses.html">Licenses</a>
+          <a href="https://github.com/nmrugg/stockfish.js" target="_blank" rel="noopener noreferrer">Stockfish on GitHub</a>
+        </div>
+      </details>
+    </nav>
+    <div class="header-actions">
+      <details class="mobile-resources">
+        <summary aria-label="Open site links" title="Site links"><svg class="icon"><use href="assets/icons.svg#file-text"></use></svg></summary>
+        <div class="mobile-resources-menu"><button id="mobileStats" type="button"><svg class="icon"><use href="assets/icons.svg#chart-no-axes-column"></use></svg> Statistics</button><a href="docs.html">Docs</a><a href="licenses.html">Licenses</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="https://github.com/nmrugg/stockfish.js" target="_blank" rel="noopener noreferrer">GitHub (engine)</a></div>
+      </details>
+      <span class="visually-hidden" id="engineChip" role="status" aria-live="polite"><span id="engineStatus">Loading…</span></span>
+      <button type="button" class="icon-btn" id="navSettings" aria-label="Open settings" title="Settings"><svg class="icon"><use href="assets/icons.svg#settings"></use></svg></button>
+      <button type="button" class="icon-btn" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode"><svg class="icon"><use href="assets/icons.svg#moon"></use></svg></button>
+    </div>
+  </header>
+
+  <div class="app-workspace">
+    <aside class="resource-rail" aria-label="Chess 360 navigation">
+      <a class="brand rail-brand" href="#play" aria-label="Chess 360 home">
+        <span class="brand-mark"><svg class="icon"><use href="assets/icons.svg#crown"></use></svg></span>
+        <span>Chess<span class="brand-accent">360</span></span>
+      </a>
+      <div class="rail-title">CHESS</div>
+      <nav class="rail-links rail-primary" aria-label="Game navigation">
+        <a class="active" href="#play" aria-current="page"><svg class="icon"><use href="assets/icons.svg#play"></use></svg><span>Play</span></a>
+        <button id="railStats" type="button"><svg class="icon"><use href="assets/icons.svg#chart-no-axes-column"></use></svg><span>Statistics</span></button>
+      </nav>
+      <div class="rail-title rail-project-title">PROJECT</div>
+      <nav class="rail-links" aria-label="Documentation and legal">
+        <a href="docs.html"><svg class="icon"><use href="assets/icons.svg#book-open"></use></svg><span>Documentation</span></a>
+        <a href="contact.html"><svg class="icon"><use href="assets/icons.svg#headphones"></use></svg><span>Contact</span></a>
+        <a href="privacy.html"><svg class="icon"><use href="assets/icons.svg#shield-check"></use></svg><span>Privacy</span></a>
+        <a href="cookies.html"><svg class="icon"><use href="assets/icons.svg#file-text"></use></svg><span>Cookies</span></a>
+        <a href="terms.html"><svg class="icon"><use href="assets/icons.svg#file-text"></use></svg><span>Terms</span></a>
+        <a href="licenses.html"><svg class="icon"><use href="assets/icons.svg#file-text"></use></svg><span>Licenses</span></a>
+        <a href="https://github.com/nmrugg/stockfish.js" target="_blank" rel="noopener noreferrer" title="Stockfish.js source on GitHub"><svg class="icon"><use href="assets/icons.svg#external-link"></use></svg><span>GitHub</span></a>
+      </nav>
+      <div class="rail-bottom">
+        <nav class="rail-links" aria-label="Preferences">
+          <button id="railSettings" type="button"><svg class="icon"><use href="assets/icons.svg#settings"></use></svg><span>Settings</span></button>
+          <button id="railThemeToggle" type="button" aria-label="Toggle color theme"><svg class="icon"><use href="assets/icons.svg#moon"></use></svg><span>Appearance</span></button>
+        </nav>
+        <span class="rail-version">Chess 360 · v1.0.0</span>
+      </div>
+    </aside>
+  <main class="main" id="play">
+
+
+    <div class="notice" id="engineNotice" hidden role="status"><svg class="icon"><use href="assets/icons.svg#info"></use></svg><div id="engineNoticeText"></div><button type="button" class="icon-btn" id="dismissNotice" aria-label="Dismiss notification"><svg class="icon"><use href="assets/icons.svg#x"></use></svg></button></div>
+
+    <div class="game-layout">
+      <section class="board-column" aria-label="Chessboard and player information">
+        <div class="board-shell glass" id="boardShell">
+          <div class="board" id="board" aria-label="Interactive chessboard"></div>
+          <svg class="arrow-layer" id="arrowLayer" viewBox="0 0 800 800" aria-hidden="true"><defs><marker id="annotationHead" markerWidth="3.3" markerHeight="3.3" refX="1.3" refY="1.65" orient="auto" markerUnits="strokeWidth"><path d="M0 0 L3.3 1.65 L0 3.3 Z" fill="#61a32e" fill-opacity=".87"/></marker></defs><g id="arrowPaths"></g></svg>
+          <div class="board-overlay" id="boardOverlay" hidden></div>
+        </div>
+        <div class="board-toolbar"><div class="game-status" id="gameStatus" aria-live="polite">White to move</div><div class="clock-group" id="clockGroup" hidden aria-label="Game clocks"><div class="clock-pair"><span id="topClockLabel">Black</span><div class="clock" id="topClock">00:00</div></div><div class="clock-pair"><span id="bottomClockLabel">White</span><div class="clock" id="bottomClock">00:00</div></div></div><span class="toolbar-separator"></span><span class="turn-help" id="boardHelp">Select a piece to see legal moves</span><div class="board-tools"><button type="button" class="toolbar-icon" id="puzzleHint" hidden title="Show a hint">Hint</button><button type="button" class="toolbar-icon" id="nextChallenge" hidden>Next puzzle</button><button type="button" class="toolbar-icon mobile-moves-button" id="movesToggle" aria-expanded="false" aria-controls="moveHistoryPanel"><svg class="icon"><use href="assets/icons.svg#book-open"></use></svg> Moves</button><button type="button" class="toolbar-icon" id="drawArrows" title="Draw arrows (or right-drag on board)" aria-label="Toggle arrow drawing" aria-pressed="false"><svg class="icon diagonal-arrow"><use href="assets/icons.svg#arrow-right"></use></svg> Arrows</button><button type="button" class="toolbar-icon" id="clearArrows" title="Clear arrows" aria-label="Clear board arrows" disabled><svg class="icon"><use href="assets/icons.svg#x"></use></svg></button></div></div>
+      </section>
+      <div class="side-rail">
+      <aside class="sidebar controls-panel" aria-label="Chess game setup">
+        <div class="panel glass">
+          <div class="panel-heading"><h2>Play chess</h2></div>
+          <div class="form-section" id="difficultySection"><label class="field-label" for="difficulty">DIFFICULTY</label><div class="select-wrap"><select id="difficulty"><option value="easy">Easy · 1320 Elo target</option><option value="medium" selected>Medium · 1800 Elo target</option><option value="hard">Hard · 2400 Elo target</option><option value="expert">Expert · Unrestricted</option></select><svg class="icon"><use href="assets/icons.svg#chevron-down"></use></svg></div><div class="setting-hint" id="difficultyHint">A balanced challenge using Stockfish's native strength control.</div></div>
+          <div class="form-section training-select-section"><label class="field-label" for="trainingMode">GAME MODE</label><div class="select-wrap"><select id="trainingMode"><option value="computer">Standard game</option><option value="position">Play from position</option><option value="puzzle">Tactical puzzles</option></select><svg class="icon"><use href="assets/icons.svg#chevron-down"></use></svg></div></div>
+          <p class="training-note" id="trainingInfo" hidden></p>
+          <p class="training-note puzzle-progress" id="puzzleProgress" hidden></p>
+          <details class="advanced-game-options"><summary>Side &amp; time control <svg class="icon"><use href="assets/icons.svg#chevron-down"></use></svg></summary><div class="advanced-contents">
+          <div class="form-section" id="colorSection"><label class="field-label">PLAY AS</label><div class="color-picker" role="group" aria-label="Choose your side"><button type="button" class="color-option selected" data-color="w" aria-pressed="true"><span class="piece-disc white">♔</span> White</button><button type="button" class="color-option" data-color="b" aria-pressed="false"><span class="piece-disc black">♚</span> Black</button><button type="button" class="color-option" data-color="random" aria-pressed="false"><svg class="icon"><use href="assets/icons.svg#refresh-cw"></use></svg> Random</button></div></div>
+          <div class="form-section" id="timeControlSection"><label class="field-label" for="timeControl">TIME CONTROL</label><div class="select-wrap"><select id="timeControl"><option value="none" selected>Casual · No clock</option><option value="600">Rapid · 10 minutes</option><option value="300">Blitz · 5 minutes</option><option value="180">Blitz · 3 minutes</option></select><svg class="icon"><use href="assets/icons.svg#chevron-down"></use></svg></div></div>
+          </div></details>
+          <button type="button" id="newGame" class="btn btn-primary btn-full"><svg class="icon"><use href="assets/icons.svg#play"></use></svg> <span id="newGameLabel">New game</span></button>
+          <p class="sidebar-footnote"><svg class="icon"><use href="assets/icons.svg#shield-check"></use></svg> No accounts, no personal data sent anywhere.</p>
+        </div>
+        <div class="panel glass quick-actions">
+          
+          <div class="quick-grid">
+            <button type="button" id="undoMove" class="action-tile" title="Take back last move"><svg class="icon"><use href="assets/icons.svg#undo-2"></use></svg><span>Undo</span></button>
+            <button type="button" id="flipBoard" class="action-tile" title="Flip board orientation"><svg class="icon"><use href="assets/icons.svg#arrow-up-down"></use></svg><span>Flip</span></button>
+            <button type="button" id="resignGame" class="action-tile" title="Resign current game"><svg class="icon"><use href="assets/icons.svg#flag"></use></svg><span>Resign</span></button>
+            <button type="button" id="copyPgn" class="action-tile" title="Copy current game's PGN"><svg class="icon"><use href="assets/icons.svg#copy"></use></svg><span>Copy PGN</span></button>
+          </div>
+        </div>
+      </aside>
+      <aside class="sidebar history-panel" id="moveHistoryPanel" aria-label="Game details and history"><button class="mobile-history-close" id="movesClose" type="button" aria-label="Close move history"><svg class="icon"><use href="assets/icons.svg#x"></use></svg></button>
+        <div class="panel glass moves-panel">
+          <div class="panel-heading compact"><h2>Moves</h2></div>
+          <div class="move-history" id="moveHistory"><div class="empty-state"><span>Play a move to begin.</span></div></div>
+          <div class="history-nav"><button type="button" id="firstMove" aria-label="First position" title="First position"><svg class="icon"><use href="assets/icons.svg#chevrons-left"></use></svg></button><button type="button" id="previousMove" aria-label="Previous position" title="Previous position"><svg class="icon"><use href="assets/icons.svg#arrow-left"></use></svg></button><span id="moveCount">Move 0 / 0</span><button type="button" id="nextMove" aria-label="Next position" title="Next position"><svg class="icon"><use href="assets/icons.svg#arrow-right"></use></svg></button><button type="button" id="lastMove" aria-label="Last position" title="Last position"><svg class="icon"><use href="assets/icons.svg#chevrons-right"></use></svg></button></div>
+        </div>
+        <div class="panel glass stats-panel">
+          <div class="stat-head"><div><span class="overline">YOUR JOURNEY</span><h2>At a glance</h2></div><button type="button" class="small-link" id="viewStats">View all <svg class="icon"><use href="assets/icons.svg#arrow-right"></use></svg></button></div>
+          <div class="stats-grid"><div class="stat-item"><div class="stat-icon wins"><svg class="icon"><use href="assets/icons.svg#trophy"></use></svg></div><strong id="statWins">0</strong><span>Wins</span></div><div class="stat-item"><div class="stat-icon draws"><svg class="icon"><use href="assets/icons.svg#circle-dot"></use></svg></div><strong id="statDraws">0</strong><span>Draws</span></div><div class="stat-item"><div class="stat-icon losses"><svg class="icon"><use href="assets/icons.svg#flag"></use></svg></div><strong id="statLosses">0</strong><span>Losses</span></div></div>
+          <div class="stat-progress"><span>Win rate</span><strong id="statWinRate">0%</strong></div><div class="progress-track"><div id="winBar" style="width:0%"></div></div>
+        </div>
+        <div class="mini-tip"><svg class="icon"><use href="assets/icons.svg#lightbulb"></use></svg><span>Hint: Click a piece to see every legal destination.</span></div>
+      </aside>
+      </div>
+    </div>
+  </main>
+  </div><!-- app-workspace -->
+
+  <div class="modal-backdrop" id="settingsModal" hidden role="presentation"><section class="modal-card glass" role="dialog" aria-modal="true" aria-labelledby="settingsTitle"><button class="icon-btn modal-close" type="button" data-close aria-label="Close settings"><svg class="icon"><use href="assets/icons.svg#x"></use></svg></button><div class="eyebrow">PERSONALIZE YOUR BOARD</div><h2 id="settingsTitle">Settings</h2><div class="modal-field"><div><strong>Dark mode</strong><span>Switch between light and midnight themes</span></div><label class="switch"><input id="settingDark" type="checkbox"><span></span></label></div><div class="modal-field"><div><strong>Move sounds</strong><span>Wooden piece pick-up and move taps</span></div><label class="switch"><input id="settingSounds" type="checkbox" checked><span></span></label></div><div class="modal-field"><div><strong>Legal move markers</strong><span>Show dots when a piece is selected</span></div><label class="switch"><input id="settingLegal" type="checkbox" checked><span></span></label></div><div class="modal-field"><div><strong>Board coordinates</strong><span>Display ranks and files on the board</span></div><label class="switch"><input id="settingCoords" type="checkbox" checked><span></span></label></div><div class="setting-block"><strong>Board colors</strong><div class="theme-choices"><button type="button" class="board-choice active" data-board="walnut"><span class="swatches walnut"><i></i><i></i></span> Walnut</button><button type="button" class="board-choice" data-board="blue"><span class="swatches blue"><i></i><i></i></span> Ocean</button><button type="button" class="board-choice" data-board="sage"><span class="swatches sage"><i></i><i></i></span> Sage</button><button type="button" class="board-choice" data-board="slate"><span class="swatches slate"><i></i><i></i></span> Slate</button></div></div><div class="piece-settings setting-block" id="pieceSettings">
+    <div class="piece-setting-heading"><div><strong>Chess piece styles</strong><p>Choose traditional, Chess Art, and Lichess collections. Change White, Black, or both sides.</p></div><a href="licenses.html#piece-artwork" target="_blank" rel="noopener noreferrer">Artist credits ↗</a></div>
+    <div class="piece-apply-target" role="group" aria-label="Apply piece style to"><button type="button" class="active" data-piece-for="both" aria-pressed="true">Both sides</button><button type="button" data-piece-for="w" aria-pressed="false">White</button><button type="button" data-piece-for="b" aria-pressed="false">Black</button></div>
+    <div class="piece-gallery-filters" role="group" aria-label="Filter piece collections"><button type="button" data-piece-source="all" class="active" aria-pressed="true">All</button><button type="button" data-piece-source="Traditional" aria-pressed="false">Traditional</button><button type="button" data-piece-source="Chess Art" aria-pressed="false">Chess Art</button><button type="button" data-piece-source="Lichess" aria-pressed="false">Lichess</button></div>
+    <div class="piece-gallery" id="pieceGallery" role="group" aria-label="Available chess piece themes"></div>
+    <div class="piece-selection-label" id="pieceSelectionLabel" aria-live="polite"></div>
+    <div class="piece-live-preview" id="pieceLivePreview" aria-label="Current white and black chess pieces"></div>
+    <div class="piece-advanced" id="pieceAdvanced" hidden>
+      <div class="piece-advanced-heading"><strong>Chess Art customization</strong><button type="button" id="resetPiecePaint" class="piece-reset">Reset colors and effects</button></div>
+      <p>Customize the Fantasy, Celtic, or Spatial artwork with gradient colors, outlines, and shadows. Settings apply to Chess Art designs on either side.</p>
+      <div class="piece-color-grid">
+        <label>White · gradient start <input type="color" data-paint="w1"></label>
+        <label>White · gradient end <input type="color" data-paint="w2"></label>
+        <label>White · outline <input type="color" data-paint="ws"></label>
+        <label>Black · gradient start <input type="color" data-paint="b1"></label>
+        <label>Black · gradient end <input type="color" data-paint="b2"></label>
+        <label>Black · outline <input type="color" data-paint="bs"></label>
+      </div>
+      <label class="piece-shadow-switch"><span>Enable artwork shadows</span><input type="checkbox" data-paint="shadow"></label>
+      <div class="piece-color-grid piece-shadow-colors"><label>White · shadow color <input type="color" data-paint="whiteShadow"></label><label>Black · shadow color <input type="color" data-paint="blackShadow"></label></div>
+      <div class="piece-range-grid">
+        <label>Outline thickness <input type="range" min="0" max="60" data-paint="stroke"><output data-paint-output="stroke"></output></label>
+        <label>Boundary thickness <input type="range" min="0" max="70" data-paint="boundary"><output data-paint-output="boundary"></output></label>
+        <label>Shadow blur <input type="range" min="0" max="60" data-paint="blur"><output data-paint-output="blur"></output></label>
+        <label>Shadow offset <input type="range" min="0" max="80" data-paint="offset"><output data-paint-output="offset"></output></label>
+        <label>Shadow slant <input type="range" min="0" max="35" data-paint="slant"><output data-paint-output="slant"></output></label>
+        <label>Shadow flattening <input type="range" min="0" max="90" data-paint="flatten"><output data-paint-output="flatten"></output></label>
+      </div>
+    </div>
+  </div><button type="button" class="btn btn-primary btn-full close-bottom" data-close>Done</button></section></div>
+  <div class="modal-backdrop" id="statsModal" hidden role="presentation"><section class="modal-card glass" role="dialog" aria-modal="true" aria-labelledby="statsTitle"><button class="icon-btn modal-close" type="button" data-close aria-label="Close statistics"><svg class="icon"><use href="assets/icons.svg#x"></use></svg></button><div class="eyebrow">YOUR PLAYBOOK</div><h2 id="statsTitle">Your statistics</h2><div class="big-stats" id="fullStats"></div><h3 class="modal-subheading">Recent games</h3><div id="recentGames" class="recent-games"></div><button type="button" class="btn btn-soft btn-full close-bottom" data-close>Close</button></section></div>
+  <div class="modal-backdrop" id="promotionModal" hidden role="presentation"><section class="modal-card promotion-card glass" role="dialog" aria-modal="true" aria-labelledby="promotionTitle"><div class="eyebrow">PAWN PROMOTION</div><h2 id="promotionTitle">Choose your piece</h2><p>What should your pawn become?</p><div class="promotion-options" id="promotionOptions"></div></section></div>
+  <div class="modal-backdrop" id="resultModal" hidden role="presentation"><section class="modal-card result-card glass" role="dialog" aria-modal="true" aria-labelledby="resultTitle"><span class="result-emblem"><svg class="icon"><use href="assets/icons.svg#trophy"></use></svg></span><div class="eyebrow">GAME COMPLETE</div><h2 id="resultTitle">Game over</h2><p id="resultDescription"></p><div class="result-buttons"><button type="button" class="btn btn-primary" id="playAgain"><svg class="icon"><use href="assets/icons.svg#rotate-ccw"></use></svg> Play again</button><button type="button" class="btn btn-soft" id="closeResult">View board</button></div></section></div>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="vendor/chess.min.js"></script>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

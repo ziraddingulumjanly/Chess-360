@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f3f4f6"><title>Licenses & credits · Chess 360</title><meta name="description" content="Third-party components and the corresponding source references."><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="info.css"><script>try { const saved = JSON.parse(localStorage.getItem('chess360.v1')); document.documentElement.dataset.theme = saved?.options?.theme === 'light' ? 'light' : 'dark'; } catch { document.documentElement.dataset.theme = 'dark'; }</script>
+</head>
+<body>
+<header class="info-header"><a href="index.html" class="info-brand">Chess<span>360</span></a><nav class="info-nav" aria-label="Documentation navigation"><a href="index.html">Play</a><a href="docs.html">Docs</a><a href="licenses.html" aria-current="page">Licenses</a><a href="contact.html">Contact</a></nav></header>
+<main class="info-main"><div class="meta">Chess 360 / Resources</div><h1>Licenses & credits</h1><p class="lede">Third-party components and the corresponding source references.</p><article class="info-content">
+<h2>Stockfish 19 and Stockfish.js</h2><p>Chess 360 ships the full Stockfish 19 multithreaded WebAssembly engine and its JavaScript loader. Stockfish/Stockfish.js are licensed under the GNU GPLv3. The full engine is distributed with <a href="licenses/GPLv3-Stockfish.txt">Stockfish GPLv3 text</a>, <a href="licenses/GPLv3-Stockfish-js.txt">Stockfish.js GPLv3 text</a>, <a href="licenses/stockfish-source.zip">Stockfish source archive</a>, and <a href="licenses/stockfish-js-source.zip">Stockfish.js source archive</a>.</p><p>Original repositories: <a href="https://github.com/official-stockfish/Stockfish" target="_blank" rel="noopener noreferrer">Stockfish</a> and <a href="https://github.com/nmrugg/stockfish.js" target="_blank" rel="noopener noreferrer">Stockfish.js</a>. Distributors must verify complete corresponding source for the exact binary and comply with the GPLv3.</p>
+<h2>chess.js</h2><p>Legal move handling uses the BSD-licensed chess.js library by Jeff Hlywa, bundled locally. <a href="https://github.com/jhlywa/chess.js" target="_blank" rel="noopener noreferrer">Source</a>.</p>
+<h2>Lucide</h2><p>UI icons use Lucide (ISC license). <a href="licenses/Lucide-ISC.txt">License text</a> and <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer">project site</a>.</p>
+<h2 id="piece-artwork">Chess piece theme gallery</h2>
+<p>The Settings gallery includes 2 traditional shaded variants of Merida, 7 Chess Art collections by <a href="https://github.com/maurimo/chess-art" target="_blank" rel="noopener noreferrer">Maurizio Monge</a> (MIT) and 10 independently licensed collections sourced from <a href="https://github.com/lichess-org/lila/tree/master/public/piece" target="_blank" rel="noopener noreferrer">Lichess</a>. Each collection is credited to its actual artist, not generically to Lichess.</p>
+<p><a href="licenses/PIECE-THEMES.md">Complete per-theme artist and license manifest</a> · <a href="licenses/Chess-Art-MIT.txt">Chess Art MIT license</a> · <a href="licenses/Lichess-COPYING.md">Lichess artist attribution and licenses</a> · <a href="licenses/Apache-2.0-Piece-Themes.txt">Apache 2.0</a> · <a href="licenses/GPLv2-Piece-Themes.txt">GPLv2</a>. Other CC licenses are linked from the manifest.</p>
+<p>Some Lichess themes are excluded because they restrict commercial use or have unclear reuse permissions. Giving credit does not override individual license requirements.</p><h3>Original artists of the additional Lichess themes</h3>
+<ul>
+<li><strong>Chessnut:</strong> <a href="https://github.com/LexLuengas" target="_blank" rel="noopener noreferrer">Alexis Luengas</a> (Apache 2.0)</li>
+<li><strong>RhosGFX:</strong> <a href="https://rhosgfx.itch.io/" target="_blank" rel="noopener noreferrer">RhosGFX</a> (CC0)</li>
+<li><strong>Kiwen Suwi:</strong> <a href="https://github.com/neverRare" target="_blank" rel="noopener noreferrer">neverRare</a> (CC BY 4.0)</li>
+<li><strong>Firi:</strong> <a href="https://github.com/jfaure/Firi-pieceset" target="_blank" rel="noopener noreferrer">James Faure</a> (CC BY 4.0)</li>
+<li><strong>Totoy:</strong> Kosal Sen (CC BY 4.0)</li>
+<li><strong>Papercut:</strong> <a href="https://nikoichu.itch.io/" target="_blank" rel="noopener noreferrer">Nikolay Anzarov</a> (CC BY 4.0)</li>
+<li><strong>Shapes:</strong> <a href="https://github.com/flugsio/chess_shapes" target="_blank" rel="noopener noreferrer">flugsio</a> (CC BY-SA 4.0)</li>
+<li><strong>Cburnett:</strong> Colin M. L. Burnett (GPLv2 or later)</li>
+<li><strong>Merida:</strong> Armando Hernandez Marroquin (GPLv2 or later)</li>
+<li><strong>Classic Ivory / Classic Wood:</strong> Shaded traditional-style derivatives of Merida by Armando Hernandez Marroquin (GPLv2 or later). <a href="https://github.com/lichess-org/lila/tree/master/public/piece/merida" target="_blank" rel="noopener noreferrer">Original SVG artwork</a>.</li>
+<li><strong>MPChess:</strong> <a href="https://github.com/chupinmaxime" target="_blank" rel="noopener noreferrer">Maxime Chupin</a> (GPLv3 or later)</li>
+</ul>
+<h2>Puzzle data</h2><p>The offline tactical challenges use selected puzzles from the <a href="https://database.lichess.org/#puzzles" target="_blank" rel="noopener noreferrer">Lichess Puzzle Database</a> (CC0 1.0). See <a href="LICENSE-TRAINING.txt">puzzle data notice</a>.</p>
+<h2>Chess pieces</h2><p>The SVG chess-piece silhouettes included in this update are vector traces of the bundled Wikipedia-style Cburnett artwork, attributed to Colin M. L. Burnett under CC BY-SA 3.0. They remain derivative artwork, not freshly authored original icons. <a href="https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces" target="_blank" rel="noopener noreferrer">Original attribution</a>.</p>
+<h2>Full notices</h2><p>Read the <a href="licenses/NOTICE.txt">third-party attribution and distribution notice</a> before redistribution. Open-source rights remain governed by their respective licenses.</p></article></main>
+<footer class="info-footer"><span>© 2026 Chess 360</span><a href="docs.html">Docs</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="licenses.html">Licenses</a><a href="contact.html">Contact</a><a href="index.html">Back to chess</a></footer>
+</body></html>

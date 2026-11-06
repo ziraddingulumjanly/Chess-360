@@ -1,0 +1,68 @@
+CHESS 360 — THIRD-PARTY LICENSES AND ATTRIBUTION
+
+1. Stockfish 19 WASM Multithreaded and Full Single-threaded
+   (c) 2026 Chess.com, LLC and the Stockfish contributors
+   https://github.com/nmrugg/stockfish.js
+   https://github.com/official-stockfish/Stockfish
+   License: GNU General Public License version 3 (GPLv3).
+   License texts: GPLv3-Stockfish-js.txt and GPLv3-Stockfish.txt
+   The GitHub Pages workflow also installs the official full single-threaded
+   Stockfish.js 19.0.1 binary from the stockfish npm package (GPLv3).
+   The source archives originally supplied by the website owner are retained under
+   licenses/stockfish-js-source.zip and licenses/stockfish-source.zip.
+   These archives are offered for reference; distributors must verify they provide
+   the complete corresponding source for the exact shipped binary and fulfill
+   all GPLv3 distribution requirements. The project may be distributed under
+   GPLv3-compatible terms, subject to separately licensed artwork below.
+
+2. chess.js (bundled version from stockfish.js examples)
+   Copyright (c) 2013 Jeff Hlywa
+   https://github.com/jhlywa/chess.js
+   License: BSD, as stated in vendor/chess.min.js.
+
+3. Lucide icons (selected SVG symbols from the supplied Lucide source archive)
+   https://lucide.dev/
+   License: ISC. Full license: Lucide-ISC.txt
+
+4. Chess-piece artwork
+   12 scalable SVG chess pieces, vector-traced from the PNG images in
+   stockfish.js/examples/img/chesspieces/wikipedia.
+   These are Wikipedia-style chessboard piece graphics, commonly derived from
+   Cburnett chess pieces by Colin M.L. Burnett, licensed CC BY-SA 3.0.
+   https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces
+   https://creativecommons.org/licenses/by-sa/3.0/
+   Attribution: Colin M.L. Burnett (Cburnett), original chess SVG illustrations.
+   Vector-tracing/shape simplification is a modification of the original raster
+   artwork. The SVG pieces retain the same CC BY-SA 3.0 attribution and
+   share-alike license; the original PNG files remain available in assets/pieces.
+
+5. UI implementation
+   A new front end inspired by the separately supplied Checkers 360 project.
+   No Checkers rules, AI search, online code, or Supabase configuration is used.
+
+6. Additional chess-piece collections (new)
+   Chess Art by Maurizio Monge: seven complete themes under the MIT License.
+   https://github.com/maurimo/chess-art
+   License copy: Chess-Art-MIT.txt
+   Artwork from Lichess's public/piece collection: ten separately licensed
+   themes, credited individually to their creators in PIECE-THEMES.md.
+   https://github.com/lichess-org/lila/tree/master/public/piece
+   Original upstream COPYING.md: Lichess-COPYING.md
+   Additional license copies: Apache-2.0-Piece-Themes.txt,
+   GPLv2-Piece-Themes.txt, GPLv3-Stockfish.txt.
+   CC BY/CC BY-SA and other license links: PIECE-THEMES.md.
+   Each theme retains its independent terms. Noncommercial-only and themes
+   with unclear permission have NOT been redistributed.
+
+7. Traditional shaded piece artwork (Classic Ivory / Classic Wood)
+   Both local raster sets are edited/rendered derivatives of the Merida SVG
+   chess pieces by Armando Hernandez Marroquin (GPLv2 or later), sourced
+   from the uploaded Lichess `public/piece/merida` collection.
+   Original unmodified SVG sources are retained under
+   assets/piece-themes/lila-merida/. License: GPLv2-Piece-Themes.txt.
+   See PIECE-THEMES.md for full per-theme attribution.
+
+8. Chess training puzzles
+   Selected rated puzzles come from the Lichess Puzzle Database (CC0 1.0).
+   https://database.lichess.org/#puzzles
+   See ../LICENSE-TRAINING.txt. Not endorsed by Lichess.

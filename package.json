@@ -1,0 +1,13 @@
+{
+  "name": "chess-360",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A standalone, browser-first chess website powered by full Stockfish 19.",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test",
+    "puzzles:build": "node scripts/build-puzzles.mjs"
+  },
+  "engines": {"node": ">=22"}
+}

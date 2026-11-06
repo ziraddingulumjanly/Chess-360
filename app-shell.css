@@ -1,0 +1,219 @@
+/* Chess 360 · one-screen game layout.
+   The chessboard and action buttons are visible at normal browser zoom;
+   documentation lives in a quiet left rail instead of a footer. */
+:root { --app-header-height:48px; }
+html, body { width:100%; height:100%; overflow:hidden; overscroll-behavior:none; }
+body { display:flex; flex-direction:column; }
+.header, .header.glass {
+  flex:0 0 var(--app-header-height); height:var(--app-header-height);
+  margin:0 auto; width:calc(100% - 28px); max-width:1520px;
+}
+.header-nav {margin-right:auto;}
+.nav-resources {display:none;}
+.app-workspace {
+  flex:1 1 auto;min-height:0;width:100%;max-width:none;margin:0 auto;
+  padding:8px 16px 7px 0; display:grid;
+  grid-template-columns:188px minmax(0,1fr); gap:14px;
+}
+.resource-rail {
+  min-height:0; padding:10px 12px 10px 12px;
+  display:flex;flex-direction:column;gap:12px;
+  border-right:1px solid var(--line);
+}
+.rail-title {padding:0 11px;color:var(--muted);font-size:11px;letter-spacing:.04em;font-weight:650;}
+.rail-links {display:flex;flex-direction:column;gap:2px;}
+.rail-links a,.rail-links button {display:flex;align-items:center;gap:10px;width:100%;min-height:36px;padding:8px 10px;border:0;text-align:left;background:transparent;border-radius:8px;font:inherit;font-size:13px;color:var(--text-secondary);white-space:nowrap;cursor:pointer;}
+.rail-links a:hover,.rail-links a:focus-visible,.rail-links button:hover,.rail-links button:focus-visible {background:var(--hover);color:var(--text);}
+.rail-links .icon {width:17px;height:17px;flex-shrink:0;}
+.rail-version {display:block;padding:14px 11px 0;font-size:11px;color:var(--muted);}
+.main {width:100%;height:100%;min-height:0;min-width:0;max-width:none;padding:0;margin:0;position:relative;}
+.notice:not([hidden]) {position:absolute;z-index:30;top:6px;right:6px;max-width:min(430px,90%);margin:0;box-shadow:0 12px 32px #0003;}
+.game-layout {
+  --board-fit:min(calc(100dvh - 52px), calc(100vw - 635px));
+  display:grid;grid-template-columns:minmax(0,var(--board-fit)) minmax(315px,410px);
+  align-items:stretch; justify-content:center;gap:14px;
+  height:100%;min-height:0;max-height:100%;width:100%;max-width:none;margin:0;
+}
+.board-column {display:flex;flex-direction:column;min-width:0;min-height:0;width:100%;}
+.board-shell {flex:0 0 auto; width:100%; aspect-ratio:1; margin:0;}
+.board {width:100%;aspect-ratio:1;}
+.board-toolbar {flex:0 0 auto;min-height:35px;padding:3px 2px 0;gap:7px;}
+.turn-help {display:none;}
+.mobile-moves-button,.mobile-history-close {display:none!important;}
+.side-rail {display:flex;flex-direction:column;min-height:0;height:100%;gap:8px;overflow:hidden;}
+.controls-panel {display:flex;flex-direction:column;flex:0 0 auto;gap:5px;}
+.controls-panel .panel {padding:12px 14px;}
+.panel-heading {margin-bottom:9px;}
+.panel-heading h2 {font-size:17px;}
+.form-section {margin-bottom:9px;}
+.select-wrap select {min-height:39px;}
+.btn {min-height:39px;}
+.advanced-game-options {margin:2px 0 10px;padding-top:9px;}
+.advanced-contents {padding-top:9px;}
+.quick-actions {padding:2px 0;margin:0;border:0;flex:0 0 auto;}
+.quick-grid {gap:5px;}
+.action-tile {min-height:57px;padding:7px 2px;font-size:12px;gap:4px;}
+.action-tile .icon {width:19px;height:19px;}
+.history-panel {display:flex;flex:0 1 auto;min-height:0;height:min(335px,calc(100dvh - 380px));width:100%;gap:0;}
+.moves-panel {display:flex;flex:1;flex-direction:column;min-height:0;height:100%;padding:12px;overflow:hidden;}
+.panel-heading.compact {flex:0 0 auto;margin-bottom:6px;}
+.move-history {min-height:0;max-height:none;flex:1 1 auto;overflow-y:auto;scrollbar-width:none;padding:0 1px 4px;}
+.move-history::-webkit-scrollbar {display:none;}
+.empty-state {min-height:58px;}
+.history-nav {flex:0 0 auto;padding-top:6px;margin-top:0;}
+.history-nav button {min-width:30px;min-height:30px;}
+.stats-panel,.mini-tip,.footer {display:none!important;}
+/* Medium laptops: use a resources dropdown instead of compressing the chessboard. */
+@media(max-width:1280px) {
+  .header,.header.glass {margin-top:0;}
+  .app-workspace {grid-template-columns:minmax(0,1fr);gap:0;padding:6px 12px 8px;}
+  .resource-rail {display:none;}
+  .nav-resources {display:flex;}
+  .game-layout {--board-fit:min(calc(100dvh - 102px), calc(100vw - 335px));grid-template-columns:minmax(0,var(--board-fit)) minmax(245px,1fr);gap:11px;}
+}
+/* Touch devices: show game actions immediately after the board. History opens as a sheet. */
+@media(max-width:790px) {
+  :root {--app-header-height:46px;}
+  .header,.header.glass {width:calc(100% - 14px);padding:0 2px;}
+  .app-workspace {display:block;padding:3px 7px 5px;}
+  .main {height:100%;}
+  .game-layout {display:flex;flex-direction:column;align-items:stretch;gap:3px;height:100%;}
+  .board-column {flex:0 0 auto;align-items:center;}
+  .board-shell {width:min(calc(100vw - 14px),calc(100dvh - 278px));max-width:100%;}
+  .board-toolbar {width:100%;min-height:34px;flex-wrap:wrap;padding:2px 0 0;gap:4px 7px;}
+  .toolbar-icon {min-height:28px;font-size:12px;padding:3px 6px;}
+  .mobile-moves-button {display:inline-flex!important;}
+  .side-rail {flex:1;min-height:0;gap:0;overflow:hidden;}
+  .controls-panel {display:flex;flex-direction:column-reverse;gap:4px;flex:0 0 auto;}
+  .controls-panel .quick-actions {padding:0;margin:0;}
+  .quick-grid {grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;}
+  .action-tile {min-height:49px;flex-direction:row;gap:5px;font-size:12px;padding:4px;}
+  .action-tile .icon {width:17px;height:17px;}
+  .controls-panel>.panel:first-child {
+    display:grid;grid-template-columns:minmax(0,1fr) 124px;
+    grid-template-areas:'difficulty newgame' 'advanced advanced';
+    align-items:center;gap:4px 7px;padding:6px 8px 5px;
+  }
+  .controls-panel>.panel:first-child .panel-heading {display:none;}
+  #difficultySection {grid-area:difficulty;margin:0;min-width:0;}
+  #difficultySection .field-label {display:none;}
+  #difficultySection .select-wrap select {font-size:12px;min-height:36px;padding:7px 24px 7px 9px;}
+  #newGame {grid-area:newgame;min-height:36px;font-size:12px;padding:7px 5px;}
+  .advanced-game-options {grid-area:advanced;margin:0;padding:2px 0 0;border-top:0;min-width:0;}
+  .advanced-game-options>summary {font-size:12px;min-height:20px;}
+  .advanced-contents {padding:5px 0;display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+  .advanced-contents .form-section {margin:0!important;min-width:0;}
+  .advanced-contents .field-label {font-size:11px;}
+  .color-picker {gap:2px;}
+  .color-option {min-height:35px;font-size:11px;padding:2px;}
+  .color-option .piece-disc {display:none;}
+  .select-wrap select {min-height:35px;}
+  .history-panel {display:none;position:fixed;z-index:65;bottom:8px;left:8px;right:8px;width:auto;max-height:min(48dvh,400px);min-height:160px;height:auto;box-shadow:0 12px 40px #0006;border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow:hidden;}
+  .history-panel.mobile-open {display:flex;}
+  .history-panel .moves-panel {padding:13px;min-height:150px;max-height:min(48dvh,400px);}
+  .mobile-history-close {display:grid!important;place-items:center;position:absolute;right:9px;top:7px;z-index:2;border:0;background:var(--surface);border-radius:7px;width:29px;height:29px;color:var(--text);}
+  .mobile-history-close .icon {width:17px;height:17px;}
+  .history-panel .panel-heading {padding-right:35px;}
+  .footer {display:none!important;}
+}
+@media(max-width:400px) {
+  .brand {font-size:16px;}
+  .board-shell {width:min(calc(100vw - 14px),calc(100dvh - 272px));}
+  .game-status {font-size:12px;}
+  .clock-group {gap:4px;}
+  .clock-pair {gap:2px;}
+  .clock-pair .clock {font-size:11px;min-width:40px;padding:3px;}
+  .action-tile {font-size:11px;gap:3px;}
+}
+/* Small height screens: board sizes down, rather than clipping actions. */
+@media(max-height:630px) and (min-width:791px) {
+  .game-layout {--board-fit:min(calc(100dvh - 94px),calc(100vw - 520px));}
+  .board-toolbar {min-height:28px;}
+  .controls-panel .panel,.moves-panel {padding:9px;}
+  .form-section {margin-bottom:6px;}
+  .quick-actions .action-tile {min-height:46px;}
+  .rail-links a {min-height:30px;}
+}
+/* Width-based correction for short, narrow laptops. */
+@media(max-width:1280px) and (min-width:791px) and (max-height:630px) {
+  .game-layout {--board-fit:min(calc(100dvh - 94px),calc(100vw - 332px));}
+}
+/* Landscape tablets have enough width for a larger board but still fit controls. */
+@media(min-width:600px) and (max-width:790px) {
+  .board-shell {width:min(calc(100vw - 14px),calc(100dvh - 218px));}
+}
+/* Tall phones can display moves without a modal or any page scrolling. */
+@media(max-width:500px) and (min-height:740px) {
+  .history-panel,.history-panel.mobile-open {
+    position:static;display:flex;flex:1 1 auto;
+    width:100%;height:auto;min-height:0;max-height:none;
+    box-shadow:none;border:0;background:transparent;border-radius:0;
+  }
+  .history-panel .moves-panel {max-height:none;min-height:0;padding:10px;}
+  .mobile-history-close,.mobile-moves-button {display:none!important;}
+  .move-history {min-height:0;}
+}
+/* The optional side/time settings open above their row, not below the viewport. */
+@media(max-width:790px) {
+  .advanced-game-options {position:relative;}
+  .advanced-game-options[open] .advanced-contents {
+    position:absolute;z-index:45;bottom:calc(100% + 7px);left:-2px;right:-2px;
+    padding:11px;background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    box-shadow:0 12px 30px #0003;
+  }
+}
+/* Keep New game clickable while the mobile settings popover is open. */
+@media(max-width:790px) {
+  .advanced-game-options[open] .advanced-contents {
+    position:fixed; top:52px; bottom:auto; left:auto; right:7px;
+    width:min(310px,calc(100vw - 14px));
+  }
+}
+
+/* Desktop: one navigation rail and a height-fitted, larger board. */
+@media (min-width:1281px) {
+  .header {display:none;}
+  .rail-brand {align-items:center;gap:9px;padding:3px 6px 15px;font-size:19px;letter-spacing:-.6px;}
+  .rail-brand .brand-mark {width:35px;height:35px;flex:none;}
+  .rail-brand .brand-mark .icon {width:21px;height:21px;}
+  .rail-primary .active {background:var(--selected);color:var(--text);font-weight:600;}
+  .rail-project-title {margin-top:9px;}
+  .rail-bottom {margin-top:auto;}
+  .resource-rail {border-right:1px solid var(--line);}
+  .side-rail {align-self:start;}
+  .history-panel {flex:0 0 auto;}
+  .controls-panel>.panel:first-child .sidebar-footnote {display:none;}
+  .panel-heading {margin-bottom:6px;}
+  .form-section {margin-bottom:8px;}
+  .field-label {font-size:11px;margin-bottom:5px;}
+  .select-wrap select {min-height:36px;padding:7px 28px 7px 10px;}
+  .advanced-game-options {margin:2px 0 8px;padding-top:6px;}
+  .btn {min-height:38px;padding:9px 12px;}
+  .quick-actions .action-tile {min-height:48px;flex-direction:row;padding:6px 2px;gap:6px;}
+  .quick-actions .action-tile .icon {width:17px;height:17px;}
+  .moves-panel {padding:12px 14px;}
+}
+@media (min-width:1281px) and (max-height:690px) {
+  .game-layout {--board-fit:min(calc(100dvh - 48px),calc(100vw - 635px));}
+  .history-panel {height:min(235px,calc(100dvh - 343px));}
+}
+@media (max-width:790px) {
+  /* Keep both mode and difficulty available, including on phones. */
+  .controls-panel>.panel:first-child {
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    grid-template-areas:'difficulty mode' 'newgame newgame' 'advanced advanced';
+  }
+  .training-select-section {grid-area:mode;margin:0;min-width:0;}
+  .training-select-section .field-label {display:none;}
+  .training-select-section .select-wrap select {font-size:12px;min-height:36px;padding:7px 23px 7px 8px;}
+  .training-note {display:none;}
+  .history-panel {height:auto;}
+}
+/* Keep the right-hand tools compact on medium-width displays as well. */
+@media (min-width:791px) and (max-width:1280px) {
+  .game-layout {width:min(100%,calc(var(--board-fit) + 421px));margin:0 auto;grid-template-columns:minmax(0,var(--board-fit)) minmax(0,1fr);justify-content:center;}
+}
+/* On landscape tablets the board must leave room for the actual start controls. */
+@media (min-width:600px) and (max-width:790px) {
+  .board-shell {width:min(calc(100vw - 14px),calc(100dvh - 285px));}
+}

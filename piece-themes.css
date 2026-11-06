@@ -1,0 +1,43 @@
+/* Chess artwork settings only; all gameplay and layout rules remain in existing stylesheets. */
+#settingsModal .modal-card {width:min(94vw,740px);max-height:min(90dvh,860px);}
+.piece-settings {margin-top:12px;padding-top:21px;border-top:1px solid var(--line);}
+.piece-setting-heading,.piece-advanced-heading {display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+.piece-setting-heading>div {max-width:470px;}
+.piece-setting-heading strong,.piece-advanced-heading strong {font-size:14px;font-weight:650;}
+.piece-setting-heading p,.piece-advanced p {font-size:12px;line-height:1.55;color:var(--muted);margin:7px 0 10px;}
+.piece-setting-heading a {white-space:nowrap;text-decoration:none;color:var(--muted);font-size:11px;margin-top:3px;}
+.piece-setting-heading a:hover {color:var(--text);text-decoration:underline;}
+.piece-apply-target,.piece-gallery-filters {display:flex;flex-wrap:wrap;gap:7px;margin:12px 0;}
+.piece-apply-target button,.piece-gallery-filters button,.piece-reset {color:var(--muted);border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;}
+.piece-apply-target button.active,.piece-gallery-filters button.active {color:var(--text);background:var(--panel);border-color:var(--text);}
+.piece-gallery-filters {margin-top:14px;}
+.piece-gallery {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;}
+.piece-theme-card {position:relative;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:70px auto auto;justify-items:center;align-items:center;column-gap:4px;row-gap:3px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--text);padding:7px 4px 8px;cursor:pointer;min-width:0;transition:border-color .15s,background .15s;}
+.piece-theme-card:hover {border-color:var(--muted);}
+.piece-theme-card.active {border-color:var(--text);box-shadow:inset 0 0 0 1px var(--text);background:var(--panel);}
+.piece-theme-card img {display:block;width:100%;height:65px;object-fit:contain;pointer-events:none;}
+.piece-theme-card strong,.piece-theme-card small {grid-column:1/-1;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;}
+.piece-theme-card strong {font-size:12px;font-weight:650;}
+.piece-theme-card small {font-size:10px;color:var(--muted);font-weight:400;}
+.piece-theme-card.active:after {content:'✓';position:absolute;top:4px;right:6px;font-size:11px;color:var(--text);}
+.piece-selection-label {font-size:11px;color:var(--muted);margin:12px 0 7px;}
+.piece-live-preview {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:12px;}
+.piece-preview-side {min-width:0;display:flex;flex-direction:column;align-items:center;gap:6px;border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:var(--surface);}
+.piece-preview-side strong {font-size:11px;font-weight:550;line-height:1.3;text-align:center;}
+.piece-preview-images {display:flex;align-items:center;justify-content:center;width:100%;}
+.piece-preview-images img {width:24%;max-width:58px;aspect-ratio:1;object-fit:contain;}
+.piece-advanced {margin-top:15px;padding:16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);}
+.piece-reset {padding:6px 9px;font-size:11px;white-space:nowrap;}
+.piece-color-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:12px 0 14px;}
+.piece-color-grid label {font-size:11px;color:var(--muted);display:flex;align-items:center;justify-content:space-between;gap:6px;border:1px solid var(--line);border-radius:7px;padding:7px;}
+.piece-color-grid input[type=color] {flex:none;width:34px;height:27px;padding:1px;border:1px solid var(--line);border-radius:5px;background:transparent;cursor:pointer;}
+.piece-shadow-switch {display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;margin-top:8px;}
+.piece-shadow-switch input {accent-color:var(--text);}
+.piece-shadow-colors {grid-template-columns:repeat(2,minmax(0,1fr));}
+.piece-range-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px 20px;}
+.piece-range-grid label {display:grid;grid-template-columns:1fr auto;align-items:center;gap:6px;font-size:11px;color:var(--muted);}
+.piece-range-grid input {grid-column:1/-1;width:100%;accent-color:var(--text);cursor:pointer;}
+.piece-range-grid output {font-variant-numeric:tabular-nums;}
+.piece-settings button:focus-visible,.piece-settings input:focus-visible,.piece-setting-heading a:focus-visible {outline:2px solid var(--text);outline-offset:3px;}
+@media(max-width:640px){.piece-gallery{grid-template-columns:repeat(3,minmax(0,1fr))}.piece-color-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.piece-setting-heading{flex-wrap:wrap}.piece-setting-heading a{margin:0 0 5px}.piece-advanced{padding:11px}}
+@media(max-width:390px){.piece-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}.piece-range-grid{grid-template-columns:1fr}.piece-live-preview{grid-template-columns:1fr}.piece-advanced-heading{flex-wrap:wrap}}

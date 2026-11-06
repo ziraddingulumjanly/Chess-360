@@ -1,0 +1,9 @@
+Chess tactics data: selected puzzles from the Lichess Puzzle Database (CC0 1.0).
+Source: https://database.lichess.org/#puzzles
+License: https://creativecommons.org/publicdomain/zero/1.0/
+This project is not endorsed by Lichess.
+
+Expanded library build:
+- Source: https://database.lichess.org/#puzzles
+- Dataset license: Creative Commons CC0 1.0 Universal
+- Only actual rated records are selected; 4,000 are stored in assets/puzzles/catalog.json when built.
